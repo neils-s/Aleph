@@ -1,8 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+    <Version>0.0.1</Version>
+    <Authors>Neils Schoenfelder</Authors>
+    <Company>Lucidity</Company>
+    <PackageLicenseUrl>https://github.com/neils-s/Aleph</PackageLicenseUrl>
+    <Copyright>2019</Copyright>
+    <PackageProjectUrl>https://github.com/neils-s/Aleph</PackageProjectUrl>
+    <Description>A C# implementation of the Aleph consensus algorithm.
+This is a leaderless, asynchronous, byzantine-fault-tolerant distributed consensus algorithm.
+You can read more about it on the AlephZero website: http://aleph-zero.org/
+Note that this Package is *not* affiliated with the AlephZero project.  It is an independant implementation of their algorithm as published in their peer-reviewed paper here: https://arxiv.org/abs/1908.05156
+Any mistakes in the algorithm are mine, and any successes should be attributed to the clever folks who developed the algorithm.</Description>
+    <RepositoryUrl>https://github.com/neils-s/Aleph</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>Initial pre-release code build.</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
