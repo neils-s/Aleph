@@ -10,12 +10,8 @@ namespace Aleph
     public class DAG<NodeDataType> : ISet<IGraphNode<NodeDataType>>
     {
         private HashSet<IGraphNode<NodeDataType>> _containedNodes;
-        
-        public DAG()
-        {
-            _containedNodes = new HashSet<IGraphNode<NodeDataType>>();
-        }
 
+        public DAG(IGraphNode<NodeDataType> aNode) : this(new HashSet<IGraphNode<NodeDataType>> { aNode }) { }
         /// <summary>
         /// Create a new directed acyclic graph container that has a given set of nodes (and all of their ancestors).
         /// Note that this can also be used as a copy constructor.
@@ -25,6 +21,11 @@ namespace Aleph
         public DAG(IEnumerable<IGraphNode<NodeDataType>> nodes):this()
         {
             this.Add(nodes);
+        }
+
+        public DAG()
+        {
+            _containedNodes = new HashSet<IGraphNode<NodeDataType>>();
         }
 
         /// <summary>
@@ -174,21 +175,6 @@ namespace Aleph
         }
 
         /// <summary>
-        /// Takes the "intersection" of this DAG with a collection of nodes.
-        /// This is not a true intersection because the DAG must always be consistent in the sense that we can't contain a node without all of its parent nodes.
-        /// Unfortunately, just because a node is in the 'other' collection, its parent nodes may not also be in that collection.
-        /// This means that a node being in the 'other' collection is a necessary, but not sufficient condition for the node ending up in the "intersection".
-        /// In other words, this function returns the largest subset of the true intersection that is still a consistent DAG.
-        /// </summary>
-        /// <param name="other"></param>
-        public void IntersectWith(ICollection<IGraphNode<NodeDataType>> other)
-        {
-            HashSet<IGraphNode<NodeDataType>> nodesToRemove = this.Compliment(other);
-            foreach (IGraphNode<NodeDataType> aNode in nodesToRemove)
-                this.Remove(aNode);
-        }
-
-        /// <summary>
         /// Takes the "intersection" of this DAG with an enumeration of nodes.
         /// This is not a true intersection because the DAG must always be consistent in the sense that we can't contain a node without all of its parent nodes.
         /// Unfortunately, just because a node is in the 'other' enumeration, its parent nodes may not also be in that enumeration.
@@ -202,6 +188,21 @@ namespace Aleph
             HashSet<IGraphNode<NodeDataType>> otherAsSet = new HashSet<IGraphNode<NodeDataType>>();
             foreach (IGraphNode<NodeDataType> aNode in other) otherAsSet.Add(aNode);
             this.IntersectWith(otherAsSet);
+        }
+
+        /// <summary>
+        /// Takes the "intersection" of this DAG with a collection of nodes.
+        /// This is not a true intersection because the DAG must always be consistent in the sense that we can't contain a node without all of its parent nodes.
+        /// Unfortunately, just because a node is in the 'other' collection, its parent nodes may not also be in that collection.
+        /// This means that a node being in the 'other' collection is a necessary, but not sufficient condition for the node ending up in the "intersection".
+        /// In other words, this function returns the largest subset of the true intersection that is still a consistent DAG.
+        /// </summary>
+        /// <param name="other"></param>
+        public void IntersectWith(ICollection<IGraphNode<NodeDataType>> other)
+        {
+            HashSet<IGraphNode<NodeDataType>> nodesToRemove = this.Compliment(other);
+            foreach (IGraphNode<NodeDataType> aNode in nodesToRemove)
+                this.Remove(aNode);
         }
 
         public void ExceptWith(IEnumerable<IGraphNode<NodeDataType>> other) => this.Remove(other);

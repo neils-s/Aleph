@@ -21,8 +21,9 @@ namespace Aleph
         public readonly NodeDataType InternalNodeData;
         public readonly HashSet<IGraphNode<NodeDataType>> ParentNodes; // To ensure the graph is acyclic, we only allow previously constructed nodes to be parents.
         public readonly NodeCreator Creator;
-        public HashSet<IGraphNode<NodeDataType>> ChildNodes { get; private set; }
+        public HashSet<IGraphNode<NodeDataType>> ChildNodes { get; private set; } // HashSets automagically skip/condense repeated values
 
+        public GraphNode(IGraphNode<NodeDataType> parentNode, NodeCreator creator, NodeDataType nodeData) : this(new HashSet<IGraphNode<NodeDataType>> { parentNode }, creator, nodeData) { }
         public GraphNode(IEnumerable<IGraphNode<NodeDataType>> parentNodes, NodeCreator creator, NodeDataType nodeData)
         {
             this.InternalNodeData = nodeData;
@@ -31,12 +32,13 @@ namespace Aleph
             this.Creator = creator;
 
             bool hasParents = false;
-            if (parentNodes != null) foreach (IGraphNode<NodeDataType> node in parentNodes)
-                {
-                    ParentNodes.Add(node);
-                    hasParents = true; // this will only be hit if parentNodes was non-null and contained at least one GraphNode
-                    node.ChildNodes.Add(this);
-                }
+            foreach (IGraphNode<NodeDataType> node in parentNodes) // If parentNodes is null, this will error
+            {
+                if (node == null) continue; // We skip null nodes
+                ParentNodes.Add(node);
+                hasParents = true; // this will only be hit if parentNodes was non-null and contained at least one non-null GraphNode
+                node.ChildNodes.Add(this);
+            }
             if (!hasParents) throw new ArgumentException("Can't create a GraphNode without any parent GraphNodes.");
         }
     }
