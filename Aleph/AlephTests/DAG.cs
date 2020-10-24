@@ -631,6 +631,145 @@ namespace AlephTests
             Assert.True(aDag1.IsGraphConsistent());
         }
 
+        [Fact]
+        public void ReversePyramidDagWith3LayersRemoveBottomNodeIntersectedWithSelf_CountReturns6()
+        {
+            Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
+            Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
 
+            Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
+            aDag.IntersectWith(aDag);
+
+            Assert.True(aDag.Count == 6);
+        }
+
+        [Fact]
+        public void ReversePyramidDagWith3LayersRemoveBottomNodeIntersectedWithRootNode_CountReturns1()
+        {
+            Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
+            Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+
+            Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
+            aDag.IntersectWith(new List<Aleph.IGraphNode<object>> { rootNode });
+
+            Assert.True(aDag.Count == 1);
+        }
+
+        [Fact]
+        public void ReversePyramidDagWith3LayersRemoveBottomNodeIntersectedWithIsolatedNode_CountReturns0()
+        {
+            Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
+            Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+
+            Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
+            aDag.IntersectWith(new List<Aleph.IGraphNode<object>> { childNode1 });
+
+            Assert.True(aDag.Count == 0);
+        }
+
+        [Fact]
+        public void ReversePyramidDagWith3LayersRemoveBottomNodeIntersectedWithChainOf3_CountReturns3()
+        {
+            Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
+            Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+
+            Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
+            aDag.IntersectWith(new List<Aleph.IGraphNode<object>> { rootNode, childNode1, grandChildNode1 });
+
+            Assert.True(aDag.Count == 3);
+        }
+
+        [Fact]
+        public void ReversePyramidDagWith3LayersRemoveBottomNodeIntersectedWithIsolatedChain_CountReturns0()
+        {
+            Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
+            Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+
+            Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
+            aDag.IntersectWith(new HashSet<Aleph.IGraphNode<object>> { childNode1, grandChildNode1 });
+
+            Assert.True(aDag.Count == 0);
+        }
+
+        [Fact]
+        public void PyramidDagWith3LayersExceptWithOtherPyramidWith3Layers_CountReturns0()
+        {
+            Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
+
+            Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.RootNode<object> rootNode4 = new Aleph.RootNode<object>(nodeCreator, null);
+
+            Aleph.GraphNode<object> node12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 }, nodeCreator, null);
+            Aleph.GraphNode<object> node23 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 }, nodeCreator, null);
+            Aleph.GraphNode<object> node34 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode3, rootNode4 }, nodeCreator, null);
+
+            Aleph.GraphNode<object> node123 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { node12, node23 }, nodeCreator, null);
+            Aleph.GraphNode<object> node234 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { node23, node34 }, nodeCreator, null);
+
+
+            Aleph.DAG<object> dag123 = new Aleph.DAG<object>(node123);
+            Aleph.DAG<object> dag234 = new Aleph.DAG<object>(node234);
+
+            Assert.True(dag123.Count == 6);
+            Assert.True(dag234.Count == 6);
+
+            dag123.SymmetricExceptWith(dag234);
+            Assert.True(dag123.Count == 2);
+            Assert.Contains<Aleph.IGraphNode<object>>(rootNode1, dag123);
+            Assert.Contains<Aleph.IGraphNode<object>>(rootNode4, dag123);
+        }
+
+        [Fact]
+        public void PyramidDagWith3LayersExceptWithIsolatedPointOfOtherPyramidWith3Layers_CountReturns0()
+        {
+            Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
+
+            Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
+            Aleph.RootNode<object> rootNode4 = new Aleph.RootNode<object>(nodeCreator, null);
+
+            Aleph.GraphNode<object> node12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 }, nodeCreator, null);
+            Aleph.GraphNode<object> node23 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 }, nodeCreator, null);
+            Aleph.GraphNode<object> node34 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode3, rootNode4 }, nodeCreator, null);
+
+            Aleph.GraphNode<object> node123 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { node12, node23 }, nodeCreator, null);
+            Aleph.GraphNode<object> node234 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { node23, node34 }, nodeCreator, null);
+
+
+            Aleph.DAG<object> dag123 = new Aleph.DAG<object>(node123);
+
+            Assert.True(dag123.Count == 6);
+
+            dag123.SymmetricExceptWith(new List<Aleph.IGraphNode<object>> { node234 });
+            Assert.True(dag123.Count == 9); // This is bigger than the set we started with because this operation requires us to take a union with an isolated point, which drags in a bunch of other stuff.
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Aleph
 {
@@ -10,18 +11,21 @@ namespace Aleph
     public interface IGraphNode<NodeDataType>
     {
         HashSet<IGraphNode<NodeDataType>> ChildNodes { get; }
+        NodeCreator Creator { get; }
+        int GenerationNumber { get; }
     }
 
     /// <summary>
-    /// The nodes of a directed acyclic graph.
+    /// The (non-root) nodes of a directed acyclic graph.
     /// </summary>
     /// <typeparam name="NodeDataType"></typeparam>
     public class GraphNode<NodeDataType> : IGraphNode<NodeDataType>
     {
         public readonly NodeDataType InternalNodeData;
         public readonly HashSet<IGraphNode<NodeDataType>> ParentNodes; // To ensure the graph is acyclic, we only allow previously constructed nodes to be parents.
-        public readonly NodeCreator Creator;
+        public NodeCreator Creator { get; }
         public HashSet<IGraphNode<NodeDataType>> ChildNodes { get; private set; } // HashSets automagically skip/condense repeated values
+        public int GenerationNumber { get; } // It's convient to count the longest distance to a root
 
         public GraphNode(IGraphNode<NodeDataType> parentNode, NodeCreator creator, NodeDataType nodeData) : this(new HashSet<IGraphNode<NodeDataType>> { parentNode }, creator, nodeData) { }
         public GraphNode(IEnumerable<IGraphNode<NodeDataType>> parentNodes, NodeCreator creator, NodeDataType nodeData)
@@ -40,7 +44,9 @@ namespace Aleph
                 node.ChildNodes.Add(this);
             }
             if (!hasParents) throw new ArgumentException("Can't create a GraphNode without any parent GraphNodes.");
+            this.GenerationNumber = 1 + this.ParentNodes.Max<IGraphNode<NodeDataType>>(parentNode => parentNode.GenerationNumber);
         }
+
     }
 
     /// <summary>
@@ -51,8 +57,9 @@ namespace Aleph
     public class RootNode<NodeDataType> : IGraphNode<NodeDataType>
     {
         public readonly NodeDataType InternalNodeData;
-        public readonly NodeCreator Creator;
+        public NodeCreator Creator { get; }
         public HashSet<IGraphNode<NodeDataType>> ChildNodes { get; private set; }
+        public int GenerationNumber => 0;
 
         public RootNode(NodeCreator creator, NodeDataType nodeData)
         {
@@ -60,6 +67,8 @@ namespace Aleph
             this.Creator = creator;
             this.InternalNodeData = nodeData;
         }
-    }
+
+     }
+
 }
 

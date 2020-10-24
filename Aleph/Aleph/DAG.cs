@@ -11,6 +11,9 @@ namespace Aleph
     {
         private HashSet<IGraphNode<NodeDataType>> _containedNodes;
 
+        public delegate void DagChanged();
+        public event DagChanged ActionsToTakeOnDagChange;
+
         public DAG(IGraphNode<NodeDataType> aNode) : this(new HashSet<IGraphNode<NodeDataType>> { aNode }) { }
         /// <summary>
         /// Create a new directed acyclic graph container that has a given set of nodes (and all of their ancestors).
@@ -59,6 +62,8 @@ namespace Aleph
         public bool Add(IGraphNode<NodeDataType> item)
         {
             if (this.Contains(item)) return true; // If the node is already in this DAG, then there's nothing to do.
+
+            ActionsToTakeOnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event
 
             if (item is RootNode<NodeDataType>)
                 return _containedNodes.Add(item); // Adding a root node takes no work at all
@@ -132,6 +137,8 @@ namespace Aleph
         {
             if (!this.Contains(item)) return true; // If the item isn't in the DAG, then we're done.
 
+            ActionsToTakeOnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event
+
             IEnumerable<IGraphNode<NodeDataType>> childNodes = item.ChildNodes;
             bool returnVal = true;
             if (childNodes!=null) foreach(IGraphNode<NodeDataType> child in childNodes)
@@ -175,6 +182,17 @@ namespace Aleph
         }
 
         /// <summary>
+        /// Takes the intersection of two DAGs.
+        /// This will act like a typical intersection of sets, because both DAGs being intersected are initially consistent.
+        /// </summary>
+        /// <param name="otherDAG"></param>
+        public void IntersectWith(DAG<NodeDataType> otherDAG)
+        {
+            ActionsToTakeOnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event
+            this._containedNodes.IntersectWith(otherDAG._containedNodes); // This assumes that both DAGs are "consistent" in the sense that a node is in a consistent DAG only if all of that node's parents are in the DAG
+        }
+
+        /// <summary>
         /// Takes the "intersection" of this DAG with an enumeration of nodes.
         /// This is not a true intersection because the DAG must always be consistent in the sense that we can't contain a node without all of its parent nodes.
         /// Unfortunately, just because a node is in the 'other' enumeration, its parent nodes may not also be in that enumeration.
@@ -205,10 +223,15 @@ namespace Aleph
                 this.Remove(aNode);
         }
 
+        /// <summary>
+        /// A set compliment operation.
+        /// Note that because DAGs need to be "consistent", removing a node will cause all of its ancestors to be removed as well.
+        /// </summary>
+        /// <param name="other"></param>
         public void ExceptWith(IEnumerable<IGraphNode<NodeDataType>> other) => this.Remove(other);
 
         /// <summary>
-        /// Returns the union of this DAG with 'other' minus the intersection.
+        /// Returns the union of this DAG with 'other' collection, minus the intersection.
         /// Note that because the 'other' collection is not necessarilly a DAG, and because we must return a consistent DAG, this will not be the XOR-intersection of sets.
         /// Instead, the initial union, will need to add all necessary ancestor nodes, and the following subration will remove lots of descendants.
         /// </summary>
@@ -232,7 +255,11 @@ namespace Aleph
 
         public bool IsReadOnly => false;
 
-        public void Clear() => _containedNodes.Clear();
+        public void Clear()
+        {
+            ActionsToTakeOnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event
+            _containedNodes.Clear();
+        }
 
         public bool Contains(IGraphNode<NodeDataType> item) =>  _containedNodes.Contains(item);
 
