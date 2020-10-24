@@ -47,6 +47,13 @@ namespace AlephTests
         }
 
         [Fact]
+        public void EmptyRootNode_GenerationNumberReturns0()
+        {
+            Aleph.IGraphNode<object> aRootNode = new Aleph.RootNode<object>(null, null);
+            Assert.Equal(0, aRootNode.GenerationNumber);
+        }
+
+        [Fact]
         public void NonEmptyRootNode_IsNonNull()
         {
             object someData = "foo";
@@ -73,6 +80,19 @@ namespace AlephTests
 
             Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(parentNodes, null, null);
             Assert.NotNull(aNode);
+        }
+
+        [Fact]
+        public void EmptyGraphNodeWith1Root_GenerationNumberReturns1()
+        {
+            Aleph.IGraphNode<object> aRootNode = new Aleph.RootNode<object>(null, null);
+            HashSet<Aleph.IGraphNode<object>> parentNodes = new HashSet<Aleph.IGraphNode<object>>
+            {
+                aRootNode
+            };
+
+            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(parentNodes, null, null);
+            Assert.Equal(1, aNode.GenerationNumber);
         }
 
         [Fact]
@@ -139,5 +159,14 @@ namespace AlephTests
             Assert.True(aNode.ParentNodes.Count == 3);
         }
 
+        [Fact]
+        public void GraphNodeWithGrandParentSameAsParent_GenerationNumberReturns2()
+        {
+            Aleph.IGraphNode<object> rootNode = new Aleph.RootNode<object>(null, null);
+            Aleph.IGraphNode<object> childNode = new Aleph.GraphNode<object>(rootNode, null, null);
+            Aleph.IGraphNode<object> grandChildNode = new Aleph.GraphNode<object>(new List<Aleph.IGraphNode<object>> { childNode, rootNode }, null, null);
+
+            Assert.Equal(2, grandChildNode.GenerationNumber);
+        }
     }
 }

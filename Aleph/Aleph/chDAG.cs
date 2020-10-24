@@ -31,12 +31,12 @@ namespace Aleph
             distinctNodeCreators = null;
 
             // Made sure that we reset the memoized count of distinct node creators whenever the DAG changes
-            this.ActionsToTakeOnDagChange +=
+            this.OnDagChange +=
                 () => { this.distinctNodeCreators = null; };
         }
 
         /// <summary>
-        /// Returns the collection of distinct NodeCreators that have built nodes in this DAG
+        /// Returns the set of NodeCreators that have built nodes in this DAG
         /// </summary>
         public HashSet<NodeCreator> DistictNodeCreators { get {
                 if (distinctNodeCreators != null) return distinctNodeCreators;

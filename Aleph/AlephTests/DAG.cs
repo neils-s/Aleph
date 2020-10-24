@@ -771,5 +771,78 @@ namespace AlephTests
             dag123.SymmetricExceptWith(new List<Aleph.IGraphNode<object>> { node234 });
             Assert.True(dag123.Count == 9); // This is bigger than the set we started with because this operation requires us to take a union with an isolated point, which drags in a bunch of other stuff.
         }
+
+        [Fact]
+        public void AddRootNodeToEmptyDag_OnChangeEventFire1Time()
+        {
+            Aleph.DAG<object> aDag = new Aleph.DAG<object>();
+
+            int eventRaisedCount = 0;
+            aDag.OnDagChange += ( () => { eventRaisedCount += 1; } );
+
+            Assert.Equal(0, eventRaisedCount);
+            aDag.AddRootNode(null, null);
+            Assert.Equal(1, eventRaisedCount);
+        }
+
+        [Fact]
+        public void EmptyDagAddNodeRemoveNode_OnChangeEventFire2Times()
+        {
+            Aleph.DAG<object> aDag = new Aleph.DAG<object>();
+
+            int eventRaisedCount = 0;
+            aDag.OnDagChange += (() => { eventRaisedCount += 1; });
+            Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(null, null);
+
+            Assert.Equal(0, eventRaisedCount);
+            aDag.Add(rootNode);
+            Assert.Equal(1, eventRaisedCount);
+            aDag.Remove(rootNode);
+            Assert.Equal(2, eventRaisedCount);
+        }
+
+        [Fact]
+        public void IntersectTwoDags_OnChangeEventFire1Time()
+        {
+            Aleph.DAG<object> aDag1 = new Aleph.DAG<object>();
+            Aleph.DAG<object> aDag2 = new Aleph.DAG<object>();
+
+            int eventRaisedCount1 = 0;
+            aDag1.OnDagChange += (() => { eventRaisedCount1 += 1; });
+            int eventRaisedCount2 = 0;
+            aDag2.OnDagChange += (() => { eventRaisedCount2 += 1; });
+
+            Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(null, null);
+
+            Assert.Equal(0, eventRaisedCount1);
+            Assert.Equal(0, eventRaisedCount2);
+
+            aDag1.Add(rootNode);
+            aDag2.Add(rootNode);
+
+            Assert.Equal(1, eventRaisedCount1);
+            Assert.Equal(1, eventRaisedCount2);
+
+            aDag1.IntersectWith(aDag2);
+
+            Assert.Equal(2, eventRaisedCount1);
+            Assert.Equal(1, eventRaisedCount2);
+        }
+
+        [Fact]
+        public void DagAddNodeAndClear_OnChangeEventFire2Times()
+        {
+            Aleph.DAG<object> aDag = new Aleph.DAG<object>();
+
+            int eventRaisedCount = 0;
+            aDag.OnDagChange += (() => { eventRaisedCount += 1; });
+            Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(null, null);
+
+            Assert.Equal(0, eventRaisedCount);
+            aDag.Add(rootNode);
+            Assert.Equal(1, eventRaisedCount);
+            aDag.Clear();
+            Assert.Equal(2, eventRaisedCount);
+        }
     }
 }

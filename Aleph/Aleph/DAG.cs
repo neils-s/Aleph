@@ -11,8 +11,8 @@ namespace Aleph
     {
         private HashSet<IGraphNode<NodeDataType>> _containedNodes;
 
-        public delegate void DagChanged();
-        public event DagChanged ActionsToTakeOnDagChange;
+        public delegate void DagChangeActions();
+        public event DagChangeActions OnDagChange;
 
         public DAG(IGraphNode<NodeDataType> aNode) : this(new HashSet<IGraphNode<NodeDataType>> { aNode }) { }
         /// <summary>
@@ -63,7 +63,7 @@ namespace Aleph
         {
             if (this.Contains(item)) return true; // If the node is already in this DAG, then there's nothing to do.
 
-            ActionsToTakeOnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event
+            OnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event.  Because of recursion, this event will be thrown a lot, but that shouldn't be a problem
 
             if (item is RootNode<NodeDataType>)
                 return _containedNodes.Add(item); // Adding a root node takes no work at all
@@ -137,7 +137,7 @@ namespace Aleph
         {
             if (!this.Contains(item)) return true; // If the item isn't in the DAG, then we're done.
 
-            ActionsToTakeOnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event
+            OnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event
 
             IEnumerable<IGraphNode<NodeDataType>> childNodes = item.ChildNodes;
             bool returnVal = true;
@@ -170,6 +170,7 @@ namespace Aleph
         /// Computes the compliment of the 'other' collection inside of this DAG.
         /// In other words, this function returns a HashSet of graph nodes with the property that that none of the nodes in this hashset are in in the 'other' collection.
         /// Note that the returned set is probably *not* a DAG!
+        /// Also, this method doesn't actually remove anything from this DAG.
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -188,7 +189,7 @@ namespace Aleph
         /// <param name="otherDAG"></param>
         public void IntersectWith(DAG<NodeDataType> otherDAG)
         {
-            ActionsToTakeOnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event
+            OnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event.  Note that this will fire even if this DAG is unchanged by the intersection.
             this._containedNodes.IntersectWith(otherDAG._containedNodes); // This assumes that both DAGs are "consistent" in the sense that a node is in a consistent DAG only if all of that node's parents are in the DAG
         }
 
@@ -257,7 +258,7 @@ namespace Aleph
 
         public void Clear()
         {
-            ActionsToTakeOnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event
+            OnDagChange?.Invoke(); // In case someone has subscribed to the changed DAG event
             _containedNodes.Clear();
         }
 
