@@ -24,39 +24,55 @@ namespace Aleph
     /// <typeparam name="NodeDataType"></typeparam>
     public class chDAG<NodeDataType> : DAG<NodeDataType>
     {
-        private HashSet<NodeCreator> distinctNodeCreators;
+        private HashSet<NodeCreator> _nodeCreators;
 
         public chDAG()
         {
-            distinctNodeCreators = null;
+            this._nodeCreators = null;
 
             // Made sure that we reset the memoized count of distinct node creators whenever the DAG changes
             this.OnDagChange +=
-                () => { this.distinctNodeCreators = null; };
+                () => { this._nodeCreators = null; };
         }
 
         /// <summary>
-        /// Returns the set of NodeCreators that have built nodes in this DAG
+        /// Returns the set of NodeCreators that have built nodes in this DAG.
         /// </summary>
-        public HashSet<NodeCreator> DistictNodeCreators { get {
-                if (distinctNodeCreators != null) return distinctNodeCreators;
-
-                IGraphNode<NodeDataType>[] allNodes = new IGraphNode<NodeDataType>[this.Count];
-                this.CopyTo(allNodes,0);
-
-                HashSet<NodeCreator> returnSet = new HashSet<NodeCreator>();
-                foreach(IGraphNode<NodeDataType> aNode in allNodes) returnSet.Add(aNode.Creator);
-
-                distinctNodeCreators = returnSet;
-                return returnSet;
-            } }
+        public HashSet<NodeCreator> NodeCreators {
+            get {
+                if (_nodeCreators==null) // We need to recompute nodeCreators
+                {
+                    IGraphNode<NodeDataType>[] allNodes = new IGraphNode<NodeDataType>[this.Count];
+                    this.CopyTo(allNodes, 0);
+                    this._nodeCreators = new HashSet<NodeCreator>();
+                    foreach (IGraphNode<NodeDataType> aNode in allNodes) this._nodeCreators.Add(aNode.Creator);
+                }
+                return new HashSet<NodeCreator>(_nodeCreators); // Protect the internal data by returning a copy of it.  This is probably an unnecessary level of paranoia...
+            }
+        }
 
         /// <summary>
         /// Find the Maximum number of faulty processes that we can tolerate.
         /// To do this, we round off by using a type cast.  This actually works in C#, unlike in C++.  
         /// The integrity of this operation relies on the fact that the Count method returns an int.
         /// </summary>
-        public int MaxTolerableFaultyNodeCreators => (int) ((this.DistictNodeCreators.Count - 1) / 3);
+        public int MaxTolerableFaultyNodeCreators => CalculateMaxFaultyNodeCreators(this.NodeCreators.Count);
+        private static int CalculateMaxFaultyNodeCreators(int nodeCreatorCount)
+        {
+            return ((nodeCreatorCount - 1) / 3); // This is integer division, so it automagically rounds down for us.
+        }
+
+
+        /// <summary>
+        /// This is the minimum number of parent nodes that need to be from the previous generation for a node to be considered valid.
+        /// </summary>
+        public int MinimumNumberOfYoungParents => CalculateMinimumYoungParents(this.NodeCreators.Count);
+        private static int CalculateMinimumYoungParents(int nodeCreatorCount)
+        {
+            return nodeCreatorCount - CalculateMaxFaultyNodeCreators(nodeCreatorCount);
+            // This is more than we should really need.  In particular, if we have 3 node creators, we need each node to have parents created by all 3.  Weird.
+            // TODO: Cook up a better number of parents when N != 3f+1.
+        }
 
         /// <summary>
         /// Go through the chDAG and find a collection of NodeCreators that have violated any of the three conditions for a valid chDAG.
@@ -66,7 +82,7 @@ namespace Aleph
         {
             HashSet<NodeCreator> returnSet = new HashSet<NodeCreator>();
             foreach(IGraphNode<NodeDataType> aNode in this) if (!NodeHasValidParents(aNode)) returnSet.Add(aNode.Creator);
-            foreach(NodeCreator creator in this.DistictNodeCreators) if (!returnSet.Contains(creator) && !CreatorsNodesAreChain(creator)) returnSet.Add(creator);
+            foreach(NodeCreator creator in this.NodeCreators) if (!returnSet.Contains(creator) && !CreatorsNodesAreChain(creator)) returnSet.Add(creator);
             return returnSet;
         }
 
@@ -105,14 +121,14 @@ namespace Aleph
         public bool NodeHasValidParents(IGraphNode<NodeDataType> aNode)
         {
             // Check the Dissemination condition and the  Diversity condition
-            return (NodeHasDistinctParents(aNode) && NodeHasEnoughYoungParents(aNode));
+            return (NodeHasDistinctParentNodeCreators(aNode) && NodeHasEnoughYoungParents(aNode));
         }
 
         private bool NodeHasEnoughYoungParents(IGraphNode<NodeDataType> aNode)
         {
             if (aNode is RootNode<NodeDataType>) return true; // Parental conditions are vacuously satisfied for root nodes
             if (!(aNode is GraphNode<NodeDataType>)) throw new ArgumentException(); // This should never happen
-            return (CountYoungParents(aNode as GraphNode<NodeDataType>) > 2 * MaxTolerableFaultyNodeCreators);
+            return ( CountYoungParents(aNode as GraphNode<NodeDataType>) >= MinimumNumberOfYoungParents );
         }
 
         /// <summary>
@@ -168,7 +184,7 @@ namespace Aleph
         /// </summary>
         /// <param name="aNode"></param>
         /// <returns></returns>
-        public static bool NodeHasDistinctParents(IGraphNode<NodeDataType> aNode)
+        public static bool NodeHasDistinctParentNodeCreators(IGraphNode<NodeDataType> aNode)
         {
             if (aNode is RootNode<NodeDataType>) return true; // root nodes have vacuously correct parent nodes
             if (aNode is GraphNode<NodeDataType>)
@@ -177,8 +193,8 @@ namespace Aleph
                 HashSet<IGraphNode<NodeDataType>> parentNodes = (aNode as GraphNode<NodeDataType>).ParentNodes;
                 foreach (IGraphNode<NodeDataType> parentNode in parentNodes)
                 {
-                    if (distinctCreators.Contains(parentNode.Creator)) break; // we can quit early because we've founda  duplicate.
-                    distinctCreators.Add(aNode.Creator);
+                    if (distinctCreators.Contains(parentNode.Creator)) break; // we can quit early because we've found a duplicate.
+                    distinctCreators.Add(parentNode.Creator);
                 }
                 return distinctCreators.Count == parentNodes.Count;
             }
