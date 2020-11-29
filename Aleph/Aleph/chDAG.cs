@@ -37,6 +37,7 @@ namespace Aleph
 
         /// <summary>
         /// Returns the set of NodeCreators that have built nodes in this DAG.
+        /// In the literature, this is the number 'N' that is used to determine most of the aleph algorithm's details
         /// </summary>
         public HashSet<NodeCreator> NodeCreators {
             get {
@@ -55,6 +56,8 @@ namespace Aleph
         /// Find the Maximum number of faulty processes that we can tolerate.
         /// To do this, we round off by using a type cast.  This actually works in C#, unlike in C++.  
         /// The integrity of this operation relies on the fact that the Count method returns an int.
+        /// In the liturature, this is the number 'f' of faulty processes.
+        /// The literature typically assumes that N=3f+1.  If more than f-many proceses are faulty, the algorithm will break.
         /// </summary>
         public int MaxTolerableFaultyNodeCreators => CalculateMaxFaultyNodeCreators(this.NodeCreators.Count);
         private static int CalculateMaxFaultyNodeCreators(int nodeCreatorCount)
@@ -104,11 +107,31 @@ namespace Aleph
             for (int i = 0; i < creatorsNodes.Count - 1; i++)
             {
                 IGraphNode<NodeDataType> thisNode = creatorsNodes[i];
-                IGraphNode<NodeDataType> nextNode = creatorsNodes[i];
+                IGraphNode<NodeDataType> nextNode = creatorsNodes[i+1];
                 if (thisNode?.ChildNodes?.Contains(nextNode) ?? false) continue;
                 return false; // We've found a pair of nodes that don't form a chain.  This could be a break or a fork.
             }
             return true;
+        }
+
+        /// <summary>
+        /// Returns all of the nodes created by a nodeCreator.
+        /// These nodes will be sorted by generation number.
+        /// </summary>
+        /// <param name="creator"></param>
+        /// <returns></returns>
+        public Dictionary<int,HashSet<IGraphNode<NodeDataType>>> CreatorsNodesByGeneration(NodeCreator creator)
+        {
+            List<IGraphNode<NodeDataType>> creatorsNodes = this.Where(node => (node.Creator == creator))?.ToList<IGraphNode<NodeDataType>>();
+            Dictionary<int, HashSet<IGraphNode<NodeDataType>>> returnDict = new Dictionary<int, HashSet<IGraphNode<NodeDataType>>>();
+            if (creatorsNodes == null || creatorsNodes.Count == 0) return returnDict;
+            foreach(IGraphNode<NodeDataType> node in creatorsNodes)
+            {
+                int nodeGeneration = node.GenerationNumber;
+                if (!returnDict.Keys.Contains(nodeGeneration)) returnDict.Add(nodeGeneration, new HashSet<IGraphNode<NodeDataType>>());
+                returnDict[nodeGeneration].Add(node);
+            }
+            return returnDict;
         }
 
         /// <summary>
@@ -139,7 +162,7 @@ namespace Aleph
         /// <returns></returns>
         private static int CountYoungParents(GraphNode<NodeDataType> aNode)
         {
-            HashSet<IGraphNode<NodeDataType>> youngestParents = YoungestParents(aNode as GraphNode<NodeDataType>);
+            HashSet<IGraphNode<NodeDataType>> youngestParents = YoungestParents(aNode);
             return youngestParents.Count;
         }
 

@@ -525,9 +525,93 @@ namespace AlephTests
 
             Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(new List<Aleph.IGraphNode<object>> { rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7, rootNode8, rootNode9, rootNode10 }, nodeCreator1, "child");
 
-            var aDAG = new Aleph.chDAG<object> { child };
+            Aleph.chDAG<object> aDAG = new Aleph.chDAG<object> { child };
             Assert.Equal(10, aDAG.NodeCreators.Count);
             Assert.Equal(3, aDAG.MaxTolerableFaultyNodeCreators);
         }
+
+        [Fact]
+        public void EmptyChDag_CreatorsNodesByGenerationReturnsEmpty()
+        {
+            Aleph.NodeCreator nodeCreator1 = new Aleph.NodeCreator();
+            Aleph.chDAG<object> aDAG = new Aleph.chDAG<object>();
+
+            Dictionary<int, HashSet<Aleph.IGraphNode<object>>> returnDict = aDAG.CreatorsNodesByGeneration(nodeCreator1);
+            Assert.Empty(returnDict);
+        }
+
+        [Fact]
+        public void ChDagWithChainByOneCreator_CreatorsNodesByGenerationReturnsCorrectly()
+        {
+            Aleph.NodeCreator nodeCreator1 = new Aleph.NodeCreator();
+            Aleph.RootNode<object> node0 = new Aleph.RootNode<object>(nodeCreator1, null);
+            Aleph.GraphNode<object> node1 = new Aleph.GraphNode<object>(node0, nodeCreator1, null);
+            Aleph.GraphNode<object> node2 = new Aleph.GraphNode<object>(node1, nodeCreator1, null);
+
+            Aleph.chDAG<object> aDAG = new Aleph.chDAG<object> { node2 };
+
+            Dictionary<int, HashSet<Aleph.IGraphNode<object>>> returnDict = aDAG.CreatorsNodesByGeneration(nodeCreator1);
+            Assert.NotEmpty(returnDict);
+            Assert.True(returnDict.Keys.Count == 3);
+            Assert.Contains(node0, returnDict[0]);
+            Assert.Single(returnDict[0]);
+            Assert.Contains(node1, returnDict[1]);
+            Assert.Single(returnDict[1]);
+            Assert.Contains(node2, returnDict[2]);
+            Assert.Single(returnDict[2]);
+        }
+
+        [Fact]
+        public void ChDagWithChainByOneCreator_CreatorsNodesAreChainReturnsTrue()
+        {
+            Aleph.NodeCreator nodeCreator1 = new Aleph.NodeCreator();
+            Aleph.RootNode<object> node0 = new Aleph.RootNode<object>(nodeCreator1, null);
+            Aleph.GraphNode<object> node1 = new Aleph.GraphNode<object>(node0, nodeCreator1, null);
+            Aleph.GraphNode<object> node2 = new Aleph.GraphNode<object>(node1, nodeCreator1, null);
+
+            Aleph.chDAG<object> aDAG = new Aleph.chDAG<object> { node2 };
+
+            bool formsChain = aDAG.CreatorsNodesAreChain(nodeCreator1);
+            Assert.True(formsChain);
+        }
+
+        [Fact]
+        public void ChDagWithNonChainByOneCreator_CreatorsNodesByGenerationReturnsCorrectly()
+        {
+            Aleph.NodeCreator nodeCreator1 = new Aleph.NodeCreator();
+            Aleph.RootNode<object> node0 = new Aleph.RootNode<object>(nodeCreator1, null);
+            Aleph.GraphNode<object> node1a = new Aleph.GraphNode<object>(node0, nodeCreator1, null);
+            Aleph.GraphNode<object> node1b = new Aleph.GraphNode<object>(node0, nodeCreator1, null);
+            Aleph.GraphNode<object> node2 = new Aleph.GraphNode<object>(node1a, nodeCreator1, null);
+
+            Aleph.chDAG<object> aDAG = new Aleph.chDAG<object> { node2, node1b };
+
+            Dictionary<int, HashSet<Aleph.IGraphNode<object>>> returnDict = aDAG.CreatorsNodesByGeneration(nodeCreator1);
+            Assert.NotEmpty(returnDict);
+            Assert.True(returnDict.Keys.Count == 3);
+            Assert.Contains(node0, returnDict[0]);
+            Assert.Single(returnDict[0]);
+            Assert.Contains(node1a, returnDict[1]);
+            Assert.True(returnDict[1].Count==2);
+            Assert.Contains(node2, returnDict[2]);
+            Assert.Single(returnDict[2]);
+        }
+
+        [Fact]
+        public void ChDagWithNonChainByOneCreator_CreatorsNodesAreChainReturnsFalse()
+        {
+            Aleph.NodeCreator nodeCreator1 = new Aleph.NodeCreator();
+            Aleph.RootNode<object> node0 = new Aleph.RootNode<object>(nodeCreator1, null);
+            Aleph.GraphNode<object> node1a = new Aleph.GraphNode<object>(node0, nodeCreator1, null);
+            Aleph.GraphNode<object> node1b = new Aleph.GraphNode<object>(node0, nodeCreator1, null);
+            Aleph.GraphNode<object> node2 = new Aleph.GraphNode<object>(node1a, nodeCreator1, null);
+
+            Aleph.chDAG<object> aDAG = new Aleph.chDAG<object> { node2, node1b };
+
+            bool formsChain = aDAG.CreatorsNodesAreChain(nodeCreator1);
+            Assert.False(formsChain);
+        }
+
+
     }
 }
