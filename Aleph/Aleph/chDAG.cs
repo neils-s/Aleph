@@ -68,6 +68,7 @@ namespace Aleph
 
         /// <summary>
         /// This is the minimum number of parent nodes that need to be from the previous generation for a node to be considered valid.
+        /// The core requirement is that every node needs to have a majority of its parents guaranteed non-byzantine.
         /// </summary>
         public int MinimumNumberOfYoungParents => CalculateMinimumYoungParents(this.NodeCreators.Count);
         private static int CalculateMinimumYoungParents(int nodeCreatorCount)
