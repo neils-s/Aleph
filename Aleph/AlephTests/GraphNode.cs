@@ -15,7 +15,7 @@ namespace AlephTests
             HashSet<Aleph.GraphNode<object>> emptyCollectionOfNodes = new HashSet<Aleph.GraphNode<object>>();
 
             Assert.Throws<ArgumentException>(
-                () => new Aleph.GraphNode<object>(emptyCollectionOfNodes, null, null)
+                () => new Aleph.GraphNode<object>(null, null, emptyCollectionOfNodes)
                 );
         }
 
@@ -25,7 +25,7 @@ namespace AlephTests
             object someData = "foo";
             HashSet<Aleph.IGraphNode<object>> nullParentNodes = new HashSet<Aleph.IGraphNode<object>> { null };
             Assert.Throws<ArgumentException>(
-                () => new Aleph.GraphNode<object>(nullParentNodes, null, someData)
+                () => new Aleph.GraphNode<object>(null, someData, nullParentNodes)
                 );
         }
 
@@ -35,7 +35,7 @@ namespace AlephTests
             HashSet<Aleph.GraphNode<object>> emptyCollectionOfNodes = new HashSet<Aleph.GraphNode<object>>();
             object someData = "foo";
             Assert.Throws<ArgumentException>(
-                () => new Aleph.GraphNode<object>(emptyCollectionOfNodes, null, someData)
+                () => new Aleph.GraphNode<object>(null, someData, emptyCollectionOfNodes)
                 );
         }
 
@@ -78,7 +78,7 @@ namespace AlephTests
                 aRootNode
             };
 
-            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(parentNodes, null, null);
+            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(null, null, parentNodes);
             Assert.NotNull(aNode);
         }
 
@@ -91,7 +91,7 @@ namespace AlephTests
                 aRootNode
             };
 
-            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(parentNodes, null, null);
+            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(null, null, parentNodes);
             Assert.Equal(1, aNode.GenerationNumber);
         }
 
@@ -107,7 +107,7 @@ namespace AlephTests
                 rootNode1, rootNode2, rootNode3
             };
 
-            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(parentNodes, null, null);
+            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(null, null, parentNodes);
             Assert.NotNull(aNode);
         }
 
@@ -123,7 +123,7 @@ namespace AlephTests
                 rootNode1, rootNode2, rootNode3
             };
 
-            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(parentNodes, null, null);
+            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(null, null, parentNodes);
             Assert.True(aNode.ParentNodes.Count == 3);
         }
 
@@ -139,7 +139,7 @@ namespace AlephTests
                 rootNode1, rootNode2, rootNode3, null
             };
 
-            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(parentNodes, null, null);
+            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(null, null, parentNodes);
             Assert.True(aNode.ParentNodes.Count == 3);
         }
 
@@ -155,7 +155,7 @@ namespace AlephTests
                 rootNode1, rootNode2, rootNode3, rootNode3
             };
 
-            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(parentNodes, null, null);
+            Aleph.GraphNode<object> aNode = new Aleph.GraphNode<object>(null, null, parentNodes);
             Assert.True(aNode.ParentNodes.Count == 3);
         }
 
@@ -163,8 +163,8 @@ namespace AlephTests
         public void GraphNodeWithGrandParentSameAsParent_GenerationNumberReturns2()
         {
             Aleph.IGraphNode<object> rootNode = new Aleph.RootNode<object>(null, null);
-            Aleph.IGraphNode<object> childNode = new Aleph.GraphNode<object>(rootNode, null, null);
-            Aleph.IGraphNode<object> grandChildNode = new Aleph.GraphNode<object>(new List<Aleph.IGraphNode<object>> { childNode, rootNode }, null, null);
+            Aleph.IGraphNode<object> childNode = new Aleph.GraphNode<object>(null, null, rootNode);
+            Aleph.IGraphNode<object> grandChildNode = new Aleph.GraphNode<object>(null, null, new List<Aleph.IGraphNode<object>> { childNode, rootNode });
 
             Assert.Equal(2, grandChildNode.GenerationNumber);
         }

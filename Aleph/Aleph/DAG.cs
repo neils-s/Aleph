@@ -102,13 +102,14 @@ namespace Aleph
         /// <summary>
         /// A short-hand method to create and add a (non-root) node to the DAG.
         /// </summary>
-        /// <param name="parentNodes"></param>
         /// <param name="creator"></param>
         /// <param name="nodeData"></param>
+        /// <param name="parentNodes"></param>
         /// <returns></returns>
-        public bool AddNode(IEnumerable<IGraphNode<NodeDataType>> parentNodes, NodeCreator creator, NodeDataType nodeData)
+        public bool AddNode(NodeCreator creator, NodeDataType nodeData, params IGraphNode<NodeDataType>[] parentNodes) => AddNode(creator, nodeData, parentNodes);
+        public bool AddNode(NodeCreator creator, NodeDataType nodeData, IEnumerable<IGraphNode<NodeDataType>> parentNodes)
         {
-            IGraphNode<NodeDataType> aNode = new GraphNode<NodeDataType>(parentNodes, creator, nodeData);
+            IGraphNode<NodeDataType> aNode = new GraphNode<NodeDataType>(creator, nodeData, parentNodes);
             return this.Add(aNode);
         }
 

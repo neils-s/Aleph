@@ -91,7 +91,7 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
             List<Aleph.IGraphNode<object>> nodes = new List<Aleph.IGraphNode<object>> { rootNode };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(nodes);
@@ -103,7 +103,7 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
+            Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
             List<Aleph.IGraphNode<object>> nodes = new List<Aleph.IGraphNode<object>> { rootNode, childNode };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(nodes);
@@ -117,7 +117,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(parentNodes, nodeCreator, null);
+            Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes);
             List<Aleph.IGraphNode<object>> nodes = new List<Aleph.IGraphNode<object>> { rootNode1, rootNode2, childNode };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(nodes);
@@ -131,7 +131,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(parentNodes, nodeCreator, null);
+            Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes);
             List<Aleph.IGraphNode<object>> nodes = new List<Aleph.IGraphNode<object>> { childNode };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(childNode);
@@ -145,13 +145,13 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode4 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes34 = new HashSet<Aleph.IGraphNode<object>> { rootNode3, rootNode4 };
-            Aleph.GraphNode<object> childNode34 = new Aleph.GraphNode<object>(parentNodes34, nodeCreator, null);
+            Aleph.GraphNode<object> childNode34 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes34);
             List<Aleph.IGraphNode<object>> nodes34 = new List<Aleph.IGraphNode<object>> { childNode34 };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(childNode12);
@@ -166,12 +166,12 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(childNode12);
@@ -186,12 +186,12 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(childNode12);
@@ -206,12 +206,12 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(childNode12);
@@ -229,12 +229,12 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(childNode12);
@@ -252,12 +252,12 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(childNode12);
@@ -275,12 +275,12 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(childNode12);
@@ -298,12 +298,12 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(childNode12);
@@ -321,16 +321,16 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             HashSet<Aleph.IGraphNode<object>> middleNodes123 = new HashSet<Aleph.IGraphNode<object>> { childNode12, childNode23 };
-            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(middleNodes123, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(nodeCreator, null, middleNodes123);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(grandChildnode123);
 
@@ -344,16 +344,16 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             HashSet<Aleph.IGraphNode<object>> middleNodes123 = new HashSet<Aleph.IGraphNode<object>> { childNode12, childNode23 };
-            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(middleNodes123, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(nodeCreator, null, middleNodes123);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(grandChildnode123);
 
@@ -367,16 +367,16 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             HashSet<Aleph.IGraphNode<object>> middleNodes123 = new HashSet<Aleph.IGraphNode<object>> { childNode12, childNode23 };
-            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(middleNodes123, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(nodeCreator, null, middleNodes123);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(grandChildnode123);
             aDag.Remove(childNode23);
@@ -391,16 +391,16 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             HashSet<Aleph.IGraphNode<object>> middleNodes123 = new HashSet<Aleph.IGraphNode<object>> { childNode12, childNode23 };
-            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(middleNodes123, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(nodeCreator, null, middleNodes123);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(grandChildnode123);
             aDag.Remove(childNode23);
@@ -415,16 +415,16 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             HashSet<Aleph.IGraphNode<object>> middleNodes123 = new HashSet<Aleph.IGraphNode<object>> { childNode12, childNode23 };
-            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(middleNodes123, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(nodeCreator, null, middleNodes123);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(grandChildnode123);
             aDag.Remove(grandChildnode123);
@@ -439,16 +439,16 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes12 = new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 };
-            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(parentNodes12, nodeCreator, null);
+            Aleph.GraphNode<object> childNode12 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes12);
             List<Aleph.IGraphNode<object>> nodes12 = new List<Aleph.IGraphNode<object>> { childNode12 };
 
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             HashSet<Aleph.IGraphNode<object>> parentNodes23 = new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 };
-            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(parentNodes23, nodeCreator, null);
+            Aleph.GraphNode<object> childNode23 = new Aleph.GraphNode<object>(nodeCreator, null, parentNodes23);
             List<Aleph.IGraphNode<object>> nodes23 = new List<Aleph.IGraphNode<object>> { childNode23 };
 
             HashSet<Aleph.IGraphNode<object>> middleNodes123 = new HashSet<Aleph.IGraphNode<object>> { childNode12, childNode23 };
-            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(middleNodes123, nodeCreator, null);
+            Aleph.GraphNode<object> grandChildnode123 = new Aleph.GraphNode<object>(nodeCreator, null, middleNodes123);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object>(grandChildnode123);
             aDag.Remove(grandChildnode123);
@@ -461,11 +461,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
 
@@ -477,11 +477,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
 
@@ -493,11 +493,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
 
@@ -509,11 +509,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
             aDag.Remove(childNode1);
@@ -526,11 +526,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
             aDag.Remove(childNode1);
@@ -543,11 +543,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
             aDag.Remove(rootNode);
@@ -560,11 +560,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag1 = new Aleph.DAG<object> { grandChildNode1 };
             Aleph.DAG<object> aDag2 = new Aleph.DAG<object> { grandChildNode2 };
@@ -579,11 +579,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag1 = new Aleph.DAG<object> { grandChildNode1 };
             Aleph.DAG<object> aDag2 = new Aleph.DAG<object> { grandChildNode2 };
@@ -598,11 +598,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag1 = new Aleph.DAG<object> { grandChildNode1, childNode2 };
             Aleph.DAG<object> aDag2 = new Aleph.DAG<object> { grandChildNode2, childNode1 };
@@ -617,11 +617,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag1 = new Aleph.DAG<object> { grandChildNode1 };
             Aleph.DAG<object> aDag2 = new Aleph.DAG<object> { grandChildNode2 };
@@ -636,11 +636,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
             aDag.IntersectWith(aDag);
@@ -653,11 +653,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
             aDag.IntersectWith(new List<Aleph.IGraphNode<object>> { rootNode });
@@ -670,11 +670,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
             aDag.IntersectWith(new List<Aleph.IGraphNode<object>> { childNode1 });
@@ -687,11 +687,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
             aDag.IntersectWith(new List<Aleph.IGraphNode<object>> { rootNode, childNode1, grandChildNode1 });
@@ -704,11 +704,11 @@ namespace AlephTests
         {
             Aleph.NodeCreator nodeCreator = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode = new Aleph.RootNode<object>(nodeCreator, null);
-            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(rootNode, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(childNode1, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(childNode2, nodeCreator, null);
+            Aleph.GraphNode<object> childNode1 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> childNode2 = new Aleph.GraphNode<object>(nodeCreator, null, rootNode);
+            Aleph.GraphNode<object> grandChildNode1 = new Aleph.GraphNode<object>(nodeCreator, null, childNode1);
+            Aleph.GraphNode<object> grandChildNode12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { childNode1, childNode2 });
+            Aleph.GraphNode<object> grandChildNode2 = new Aleph.GraphNode<object>(nodeCreator, null, childNode2);
 
             Aleph.DAG<object> aDag = new Aleph.DAG<object> { grandChildNode1, grandChildNode12, grandChildNode2 };
             aDag.IntersectWith(new HashSet<Aleph.IGraphNode<object>> { childNode1, grandChildNode1 });
@@ -726,12 +726,12 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode4 = new Aleph.RootNode<object>(nodeCreator, null);
 
-            Aleph.GraphNode<object> node12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> node23 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 }, nodeCreator, null);
-            Aleph.GraphNode<object> node34 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode3, rootNode4 }, nodeCreator, null);
+            Aleph.GraphNode<object> node12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 });
+            Aleph.GraphNode<object> node23 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 });
+            Aleph.GraphNode<object> node34 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { rootNode3, rootNode4 });
 
-            Aleph.GraphNode<object> node123 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { node12, node23 }, nodeCreator, null);
-            Aleph.GraphNode<object> node234 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { node23, node34 }, nodeCreator, null);
+            Aleph.GraphNode<object> node123 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { node12, node23 });
+            Aleph.GraphNode<object> node234 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { node23, node34 });
 
 
             Aleph.DAG<object> dag123 = new Aleph.DAG<object>(node123);
@@ -756,12 +756,12 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator, null);
             Aleph.RootNode<object> rootNode4 = new Aleph.RootNode<object>(nodeCreator, null);
 
-            Aleph.GraphNode<object> node12 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 }, nodeCreator, null);
-            Aleph.GraphNode<object> node23 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 }, nodeCreator, null);
-            Aleph.GraphNode<object> node34 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { rootNode3, rootNode4 }, nodeCreator, null);
+            Aleph.GraphNode<object> node12 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { rootNode1, rootNode2 });
+            Aleph.GraphNode<object> node23 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { rootNode2, rootNode3 });
+            Aleph.GraphNode<object> node34 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { rootNode3, rootNode4 });
 
-            Aleph.GraphNode<object> node123 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { node12, node23 }, nodeCreator, null);
-            Aleph.GraphNode<object> node234 = new Aleph.GraphNode<object>(new HashSet<Aleph.IGraphNode<object>> { node23, node34 }, nodeCreator, null);
+            Aleph.GraphNode<object> node123 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { node12, node23 });
+            Aleph.GraphNode<object> node234 = new Aleph.GraphNode<object>(nodeCreator, null, new HashSet<Aleph.IGraphNode<object>> { node23, node34 });
 
 
             Aleph.DAG<object> dag123 = new Aleph.DAG<object>(node123);

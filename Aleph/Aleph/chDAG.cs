@@ -18,7 +18,7 @@ namespace Aleph
     ///     2) [Dissemination] Each node of generation 'r' (greater than 1) has at least 2f+1 many parent nodes that are in generation r-1.
     ///     3) [Diversity] For any given non-root node, its parent nodes were all created by different NodeCreators.
     /// 
-    /// This chDAG includes methods that detect nodes that violate (2) and (3), and also returns a list of NodeCreators that violated any
+    /// This chDAG includes methods that detect nodes that violate (1) through (3), and also returns a list of NodeCreators that violated any
     /// of the 3 conditions.
     /// </summary>
     /// <typeparam name="NodeDataType"></typeparam>

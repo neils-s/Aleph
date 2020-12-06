@@ -27,8 +27,8 @@ namespace Aleph
         public HashSet<IGraphNode<NodeDataType>> ChildNodes { get; private set; } // HashSets automagically skip/condense repeated values
         public int GenerationNumber { get; } // It's convient to count the longest distance to a root
 
-        public GraphNode(IGraphNode<NodeDataType> parentNode, NodeCreator creator, NodeDataType nodeData) : this(new HashSet<IGraphNode<NodeDataType>> { parentNode }, creator, nodeData) { }
-        public GraphNode(IEnumerable<IGraphNode<NodeDataType>> parentNodes, NodeCreator creator, NodeDataType nodeData)
+        public GraphNode(NodeCreator creator, NodeDataType nodeData, params IGraphNode<NodeDataType>[] parentNodes) : this(creator, nodeData, parentNodes?.ToList()) { }
+        public GraphNode(NodeCreator creator, NodeDataType nodeData, IEnumerable<IGraphNode<NodeDataType>> parentNodes)
         {
             this.InternalNodeData = nodeData;
             this.ChildNodes = new HashSet<IGraphNode<NodeDataType>>();
@@ -36,7 +36,8 @@ namespace Aleph
             this.Creator = creator;
 
             bool hasParents = false;
-            foreach (IGraphNode<NodeDataType> node in parentNodes) // If parentNodes is null, this will error
+            if (parentNodes == null) throw new ArgumentException("Can't create a GraphNode with a null collection of parents");
+            foreach (IGraphNode<NodeDataType> node in parentNodes) 
             {
                 if (node == null) continue; // We skip null nodes
                 ParentNodes.Add(node);
