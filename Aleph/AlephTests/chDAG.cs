@@ -1,5 +1,4 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 using System.Collections.Generic;
 
 namespace AlephTests
@@ -78,7 +77,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator3, null);
 
             Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(nodeCreator2, null, rootNode1);
-            Aleph.GraphNode<object> grandChild = new Aleph.GraphNode<object>(nodeCreator1, null, new List<Aleph.IGraphNode<object>> { childNode, rootNode3 });
+            Aleph.GraphNode<object> grandChild = new Aleph.GraphNode<object>(nodeCreator1, null, childNode, rootNode3);
 
             Aleph.chDAG<object> aDAG = new Aleph.chDAG<object>();
             aDAG.Add(grandChild);
@@ -105,7 +104,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator2, null);
             Aleph.RootNode<object> rootNode3 = new Aleph.RootNode<object>(nodeCreator3, null);
 
-            Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(nodeCreator1, null, new List<Aleph.IGraphNode<object>> { rootNode1, rootNode2, rootNode3 });
+            Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(nodeCreator1, null, rootNode1, rootNode2, rootNode3);
 
             Assert.True(Aleph.chDAG<object>.NodeHasDistinctParentNodeCreators(childNode));
         }
@@ -136,7 +135,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode2 = new Aleph.RootNode<object>(nodeCreator2, null);
 
             Aleph.GraphNode<object> childNode = new Aleph.GraphNode<object>(nodeCreator3, null, rootNode1);
-            Aleph.GraphNode<object> grandChild = new Aleph.GraphNode<object>(nodeCreator1, null, new List<Aleph.IGraphNode<object>> { childNode, rootNode2 });
+            Aleph.GraphNode<object> grandChild = new Aleph.GraphNode<object>(nodeCreator1, null, childNode, rootNode2 );
 
             Assert.NotNull(Aleph.chDAG<object>.ParentsByGenerations(grandChild));
         }
@@ -184,7 +183,7 @@ namespace AlephTests
             Aleph.NodeCreator nodeCreator1 = new Aleph.NodeCreator();
             Aleph.RootNode<object> rootNode1 = new Aleph.RootNode<object>(nodeCreator1, null);
 
-            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", new List<Aleph.IGraphNode<object>> { rootNode1 });
+            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", rootNode1);
 
             var aDAG = new Aleph.chDAG<object>();
             aDAG.Add(child);
@@ -318,7 +317,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode6 = new Aleph.RootNode<object>(nodeCreator6, null);
             Aleph.RootNode<object> rootNode7 = new Aleph.RootNode<object>(nodeCreator7, null);
 
-            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", new List<Aleph.IGraphNode<object>> { rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7 });
+            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child",  rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7);
 
             Aleph.chDAG<object> aDAG = new Aleph.chDAG<object> { child };
             Assert.Equal(2, aDAG.MaxTolerableFaultyNodeCreators);
@@ -343,7 +342,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode6 = new Aleph.RootNode<object>(nodeCreator6, null);
             Aleph.RootNode<object> rootNode7 = new Aleph.RootNode<object>(nodeCreator7, null);
 
-            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", new List<Aleph.IGraphNode<object>> { rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7 });
+            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child",  rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7);
 
             Aleph.chDAG<object> aDAG = new Aleph.chDAG<object> { child };
             Assert.Equal(7, aDAG.NodeCreators.Count);
@@ -429,7 +428,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode8 = new Aleph.RootNode<object>(nodeCreator8, null);
             Aleph.RootNode<object> rootNode9 = new Aleph.RootNode<object>(nodeCreator9, null);
 
-            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", new List<Aleph.IGraphNode<object>> { rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7, rootNode8, rootNode9 });
+            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7, rootNode8, rootNode9 );
 
             var aDAG = new Aleph.chDAG<object> { child };
             Assert.Equal(9, aDAG.NodeCreators.Count);
@@ -459,7 +458,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode8 = new Aleph.RootNode<object>(nodeCreator8, null);
             Aleph.RootNode<object> rootNode9 = new Aleph.RootNode<object>(nodeCreator9, null);
 
-            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", new List<Aleph.IGraphNode<object>> { rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7, rootNode8, rootNode9 });
+            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7, rootNode8, rootNode9);
 
             var aDAG = new Aleph.chDAG<object> { child };
             Assert.Equal(9, aDAG.NodeCreators.Count);
@@ -491,7 +490,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode9 = new Aleph.RootNode<object>(nodeCreator9, null);
             Aleph.RootNode<object> rootNode10 = new Aleph.RootNode<object>(nodeCreator10, null);
 
-            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", new List<Aleph.IGraphNode<object>> { rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7, rootNode8, rootNode9, rootNode10 });
+            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7, rootNode8, rootNode9, rootNode10);
 
             var aDAG = new Aleph.chDAG<object> { child };
             Assert.Equal(10, aDAG.NodeCreators.Count);
@@ -523,7 +522,7 @@ namespace AlephTests
             Aleph.RootNode<object> rootNode9 = new Aleph.RootNode<object>(nodeCreator9, null);
             Aleph.RootNode<object> rootNode10 = new Aleph.RootNode<object>(nodeCreator10, null);
 
-            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", new List<Aleph.IGraphNode<object>> { rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7, rootNode8, rootNode9, rootNode10 });
+            Aleph.GraphNode<object> child = new Aleph.GraphNode<object>(nodeCreator1, "child", rootNode1, rootNode2, rootNode3, rootNode4, rootNode5, rootNode6, rootNode7, rootNode8, rootNode9, rootNode10);
 
             Aleph.chDAG<object> aDAG = new Aleph.chDAG<object> { child };
             Assert.Equal(10, aDAG.NodeCreators.Count);
